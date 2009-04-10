@@ -1,13 +1,21 @@
 package ca.softwareengineering.jcampfire.test;
 
-public class CTest {
+import ca.softwareengineering.jcampfire.CampfireException;
+import ca.softwareengineering.jcampfire.CampfireSession;
 
-	/**
-	 * @param args
+public class CTest {
+	/*
+	 * Args: subdomain, user, password
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		try {
+			CampfireSession cs = new CampfireSession(args[0], args[1], args[2]);
+			System.out.println("New CampfireSession: " + cs.toString());
+			cs.connect();
+			
+		} catch (CampfireException c_ex) {
+			c_ex.printStackTrace();
+		}
 	}
 
 }
