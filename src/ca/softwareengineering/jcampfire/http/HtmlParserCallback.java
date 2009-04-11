@@ -21,7 +21,7 @@ public class HtmlParserCallback extends HTMLEditorKit.ParserCallback {
 
 	// This is a SAX-like API and we need to keep track of the context. We're
 	// going super-simple by just parsing anchors now, but a more complex page
-	// would need a stack of elements.
+	// would need a stack of elements. Consider this a 1-level context stack :)
 	enum Context {
 		A
 	};
@@ -65,7 +65,7 @@ public class HtmlParserCallback extends HTMLEditorKit.ParserCallback {
 	@Override
 	public void handleText(char[] data, int pos) {
 		// System.out.println("TEXT / " + new String(data));
-		
+
 		if (curContext == Context.A) {
 			curAnchorText = new String(data);
 		}

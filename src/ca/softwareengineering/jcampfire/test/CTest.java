@@ -16,7 +16,6 @@ public class CTest {
 			System.out.println("New CampfireSession: " + cs.toString());
 						
 			//cs.connect();
-			cs.test();
 			List<CampfireRoom> rooms = cs.getRooms();
 			System.out.println(rooms);
 			CampfireRoom room1 = cs.getRoomByName("Room 1");

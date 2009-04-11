@@ -2,9 +2,6 @@ package ca.softwareengineering.jcampfire;
 
 import static ca.softwareengineering.jcampfire.impl.Constants.CF_DOMAIN;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -18,6 +15,7 @@ import ca.softwareengineering.jcampfire.http.SimpleClient;
 import ca.softwareengineering.jcampfire.http.HtmlParserCallback.HtmlAnchor;
 import ca.softwareengineering.jcampfire.http.SimpleClient.RTYPE;
 import ca.softwareengineering.jcampfire.http.SimpleClient.Request;
+import ca.softwareengineering.jcampfire.impl.Constants;
 
 public class CampfireSession {
 
@@ -26,8 +24,7 @@ public class CampfireSession {
 	String _cachedLobbyStr;
 	List<CampfireRoom> _cachedRooms;
 	protected SimpleClient _client;
-	
-	
+
 	public CampfireSession(String subdomain, String user, String password) {
 		_subdomain = subdomain;
 		_user = user;
@@ -38,8 +35,11 @@ public class CampfireSession {
 	public boolean connected() {
 		return _loggedIn;
 	}
-	
+
 	public void connect() throws CampfireException {
+		if (connected())
+			return;
+
 		_client = new SimpleClient();
 		Request req = new Request();
 		req.address = baseUrl();
@@ -51,10 +51,10 @@ public class CampfireSession {
 		}
 
 		req = new Request();
-		req.address = baseUrl() + "login";
+		req.address = baseUrl() + Constants.CF_LOGIN_URL;
 		req.rtype = RTYPE.POST;
-		req.formFields.put("email_address", _user);
-		req.formFields.put("password", _password);
+		req.formFields.put(Constants.CF_LOGIN_EMAIL, _user);
+		req.formFields.put(Constants.CF_LOGIN_PASSWORD, _password);
 
 		try {
 			String resp = _client.doRequest(req);
@@ -67,10 +67,12 @@ public class CampfireSession {
 			_cachedLobbyStr = resp;
 
 			/* DEBUG */
+			/*
 			FileWriter fw = new FileWriter("/tmp/xhtml.html");
 			fw.write(_cachedLobbyStr);
 			fw.flush();
 			fw.close();
+			*/
 		} catch (IOException ioex) {
 			throw new CampfireException("Login failed.", ioex);
 		}
@@ -110,6 +112,7 @@ public class CampfireSession {
 		return null;
 	}
 
+	/*
 	public void test() throws CampfireException {
 		try {
 			FileReader fr = new FileReader("/tmp/xhtml.html");
@@ -126,7 +129,8 @@ public class CampfireSession {
 			ex.printStackTrace();
 		}
 	}
-
+	*/
+	
 	@Override
 	public String toString() {
 		return String.format("%s@%s", _user, _subdomain);
