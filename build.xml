@@ -7,7 +7,7 @@
     	<property name="jar.name" value="jcampfire.jar"/>
     </target>
 
-	<target name="clean" depends="init" description="Clean build products">
+	<target name="clean" depends="init" description="Clean build artifacts">
 		<delete dir="${dist.dir}"></delete>
 		<delete dir="${obj.dir}"></delete>
 	</target>
@@ -22,7 +22,7 @@
 		
 		<javadoc destdir="${dist.dir}/${doc.dir}" 
 			access="public"
-			windowtitle="JCampfire API"
+			windowtitle="JCampfire API Documentation"
 			classpath="${obj.dir}">
 			<fileset dir="src">
 			    <include name="ca/softwareengineering/jcampfire/*.java"/>
