@@ -1,3 +1,73 @@
 jcampfire: Basic Campfire API in Java, for 37signals' Campfire business group chat.
 (http://www.campfirenow.com)
 
+It's not as full-featured as Tinder, but it's a good step towards getting 
+Campfire output capability in Java.
+
+This library was originally written by Jean-Philippe Daigle [jpdaigle@gmail.com] 
+and is released under the WTFPL [http://en.wikipedia.org/wiki/WTFPL].
+
+The latest source can be downloaded from:
+http://github.com/jpdaigle/jcampfire/
+
+
+BUILD AND INSTALL JCAMPFIRE
+===========================
+Building:
+$ ant clean build
+
+Outputs:
+_dist/jcampfire.jar		(The API)
+_dist/doc				(Javadocs)
+
+
+ANT TASK
+========
+JCampfire includes an Ant task for echoing text from an Ant build to a Campfire room.
+(In fact, this was the impetus for writing the library.)
+
+To use it, put jcampfire.jar somewhere where Ant can reach and do this:
+
+	<project name="jcampfire-ant-test">
+		<taskdef 
+			name="jcampfire" 
+			classname="ca.softwareengineering.jcampfire.ant.JCampfireEcho" 
+			classpath="_dist/jcampfire.jar"/>
+		<target name="test">
+			<jcampfire 
+				user="ant@example.com" 
+				password="mypassword" 
+				subdomain="jcampfire" 
+				room="Room 1" 
+				failonerror="false"
+				paste="false"
+				message="Hello from ant" />
+		</target>	
+	</project>
+
+Available attributes:
+user		Email address to use for login
+password	Password
+subdomain	Campfire subdomain, without 'campfirenow.com' (SUBDOMAIN.campfirenow.com)
+room		Name of room to join
+message		Message to send to Campfire
+paste		Whether to mark as paste (optional, default=false)
+failonerror	Whether to fail the build on error (optional, default=true)
+
+
+USING THE API (SAMPLE CODE)
+===========================
+	try {
+		CampfireSession cs = new CampfireSession("subdomain", "user@example.com", "password");
+		cs.connect();
+		List<CampfireRoom> rooms = cs.getRooms(); // See all rooms
+		System.out.println(rooms);
+		CampfireRoom room1 = cs.getRoomByName("Room 1");
+		room1.enter();
+		room1.echo("Hello World", false);		
+	} catch (CampfireException c_ex) {
+		c_ex.printStackTrace();
+	}
+
+
+	

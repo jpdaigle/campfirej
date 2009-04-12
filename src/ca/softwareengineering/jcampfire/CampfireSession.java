@@ -120,7 +120,6 @@ public class CampfireSession {
 				throw new CampfireException("HTML parsing error", e);
 			}
 			List<HtmlAnchor> lobbyAnchors = ((HtmlParserCallback) callback).anchors;
-			System.out.println(lobbyAnchors);
 			for (HtmlAnchor htmlAnchor : lobbyAnchors) {
 				if (htmlAnchor.href.matches(".*/room/.*")) {
 					try {

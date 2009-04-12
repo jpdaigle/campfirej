@@ -49,10 +49,21 @@ public class CampfireRoom {
 		req.address = this.href;
 		try {
 			String roomContents = session._client.doRequest(req);
-			System.out.println(roomContents);
 		} catch (IOException e) {
 			throw new CampfireException("Error joining room " + name, e);
 		}
+	}
+
+	/**
+	 * Send a message to the room. The room should first be entered using
+	 * <code>enter()</code>.
+	 * 
+	 * @param message
+	 *            Message to send, will be URLEncoded.
+	 * @throws CampfireException
+	 */
+	public void echo(String message) throws CampfireException {
+		echo(message, false);
 	}
 
 	/**
@@ -79,7 +90,6 @@ public class CampfireRoom {
 
 		try {
 			String ret = session._client.doRequest(req);
-			System.out.println("RET: " + ret);
 		} catch (IOException e) {
 			throw new CampfireException("Unable to echo message to room.", e);
 		}

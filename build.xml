@@ -20,7 +20,7 @@
          	destdir="${obj.dir}"
          	debug="on"	/>
 		
-		<javadoc destdir="${obj.dir}/${doc.dir}" 
+		<javadoc destdir="${dist.dir}/${doc.dir}" 
 			access="public"
 			windowtitle="JCampfire API"
 			classpath="${obj.dir}">
