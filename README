@@ -60,10 +60,10 @@ failonerror	Whether to fail the build on error (optional, default=true)
 
 EXECUTABLE JAR
 ==============
-In addition to the programmatic interface, jcampfire.jar can be used as an executable 
-to post a Campfire message.
+In addition to the programmatic interface and Ant task, jcampfire.jar can be used as an executable 
+to post a Campfire message:
 
-$ java -jar jcampfire.jar 
+$ java -jar jcampfire.jar -u user -s subdomain -p password -r "Room 1" -m "Hello world" --paste
 
 
 
