@@ -8,6 +8,9 @@ import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.HTML.Tag;
 
+/*
+ * Quick and dirty parser to extract anchors from an HTML page. Doesn't do anything else.
+ */
 public class HtmlParserCallback extends HTMLEditorKit.ParserCallback {
 
 	public static class HtmlAnchor {

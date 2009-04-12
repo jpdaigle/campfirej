@@ -17,6 +17,20 @@ import ca.softwareengineering.jcampfire.http.SimpleClient.RTYPE;
 import ca.softwareengineering.jcampfire.http.SimpleClient.Request;
 import ca.softwareengineering.jcampfire.impl.Constants;
 
+/**
+ * A session to the Campfire server and the main API entry point.
+ * 
+ * <p>
+ * Currently, once a session is opened, it is never closed or logged out to
+ * avoid polluting rooms with a bunch of "Entered the room" / "Left the room"
+ * messages when doing several executions in a row (e.g. from a continuous
+ * integration system). This behaviour is likely to change in the future, and a
+ * logout() method implemented.
+ * 
+ * <p>
+ * SSL support is not yet implemented because I don't have an SSL account (I
+ * just have the mini free one), but it should be trivial.
+ */
 public class CampfireSession {
 
 	final String _subdomain, _user, _password;
@@ -25,6 +39,16 @@ public class CampfireSession {
 	List<CampfireRoom> _cachedRooms;
 	protected SimpleClient _client;
 
+	/**
+	 * Creates a new CampfireSession.
+	 * 
+	 * @param subdomain
+	 *            The subdomain to login to (SUBDOMAIN.campfirenow.com)
+	 * @param user
+	 *            Email address to use for logging in
+	 * @param password
+	 *            Password to use for logging in
+	 */
 	public CampfireSession(String subdomain, String user, String password) {
 		_subdomain = subdomain;
 		_user = user;
@@ -32,10 +56,19 @@ public class CampfireSession {
 		_cachedRooms = new ArrayList<CampfireRoom>();
 	}
 
+	/**
+	 * Checks whether this session has been connected. Once connect() has been
+	 * called and returned successfully, we are assumed 'connected' even if no
+	 * connections to the server are active. Each HTTP request makes a new
+	 * connection.
+	 */
 	public boolean connected() {
 		return _loggedIn;
 	}
 
+	/**
+	 * Connect and login.
+	 */
 	public void connect() throws CampfireException {
 		if (connected())
 			return;
@@ -45,7 +78,7 @@ public class CampfireSession {
 		req.address = baseUrl();
 
 		try {
-			String resp = _client.doRequest(req);
+			_client.doRequest(req);
 		} catch (IOException ioex) {
 			throw new CampfireException("Connect failed.", ioex);
 		}
@@ -62,22 +95,17 @@ public class CampfireSession {
 			if (resp.matches(".*Lobby.*")) {
 				_loggedIn = true;
 			} else {
-				throw new CampfireException("Login failed.");
+				throw new CampfireException("Login failed, could not find 'Lobby' in response.");
 			}
 			_cachedLobbyStr = resp;
-
-			/* DEBUG */
-			/*
-			FileWriter fw = new FileWriter("/tmp/xhtml.html");
-			fw.write(_cachedLobbyStr);
-			fw.flush();
-			fw.close();
-			*/
 		} catch (IOException ioex) {
 			throw new CampfireException("Login failed.", ioex);
 		}
 	}
 
+	/**
+	 * Gets the list of all rooms accessible on this Campfire subdomain.
+	 */
 	public List<CampfireRoom> getRooms() throws CampfireException {
 		if (!_loggedIn && _cachedLobbyStr == null)
 			connect();
@@ -95,14 +123,29 @@ public class CampfireSession {
 			System.out.println(lobbyAnchors);
 			for (HtmlAnchor htmlAnchor : lobbyAnchors) {
 				if (htmlAnchor.href.matches(".*/room/.*")) {
-					CampfireRoom room = new CampfireRoom(htmlAnchor.href, htmlAnchor.text, this);
-					_cachedRooms.add(room);
+					try {
+						CampfireRoom room = new CampfireRoom(htmlAnchor.href, htmlAnchor.text, this);
+						_cachedRooms.add(room);
+					} catch (CampfireException cex) {
+						// Print and keep going, we consider this a non-fatal
+						// problem because other rooms may be loadable.
+						System.err.println("Error loading room: " + cex.getMessage());
+					}
 				}
 			}
 		}
 		return _cachedRooms;
 	}
 
+	/**
+	 * Gets a <code>CampfireRoom</code> object by its display name.
+	 * 
+	 * @param name
+	 *            The display name to search for.
+	 * @return The first room found matching the given name, or
+	 *         <code>null</code> if not found.
+	 * @throws CampfireException
+	 */
 	public CampfireRoom getRoomByName(String name) throws CampfireException {
 		List<CampfireRoom> rooms = getRooms();
 		for (CampfireRoom r : rooms) {
@@ -112,31 +155,12 @@ public class CampfireSession {
 		return null;
 	}
 
-	/*
-	public void test() throws CampfireException {
-		try {
-			FileReader fr = new FileReader("/tmp/xhtml.html");
-			BufferedReader br = new BufferedReader(fr);
-
-			String doc = "";
-			while (br.ready()) {
-				doc += br.readLine();
-			}
-			br.close();
-			System.out.println(doc);
-			_cachedLobbyStr = doc;
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		}
-	}
-	*/
-	
 	@Override
 	public String toString() {
 		return String.format("%s@%s", _user, _subdomain);
 	}
 
-	String baseUrl() {
+	private final String baseUrl() {
 		return "http://" + _subdomain + "." + CF_DOMAIN + "/";
 	}
 

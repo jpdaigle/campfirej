@@ -14,12 +14,13 @@ public class CTest {
 		try {
 			CampfireSession cs = new CampfireSession(args[0], args[1], args[2]);
 			System.out.println("New CampfireSession: " + cs.toString());
-						
+					
 			//cs.connect();
 			List<CampfireRoom> rooms = cs.getRooms();
 			System.out.println(rooms);
 			CampfireRoom room1 = cs.getRoomByName("Room 1");
 			room1.enter();
+			room1.echo("Test speak.", false);
 			
 		} catch (CampfireException c_ex) {
 			c_ex.printStackTrace();

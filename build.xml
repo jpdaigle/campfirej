@@ -1,0 +1,39 @@
+<project name="jcampfire">
+
+    <target name="init">
+    	<property name="dist.dir" value="_dist"/>
+    	<property name="obj.dir" value="_obj"/>
+    	<property name="doc.dir" value="doc"/>
+    	<property name="jar.name" value="jcampfire.jar"/>
+    </target>
+
+	<target name="clean" depends="init" description="Clean build products">
+		<delete dir="${dist.dir}"></delete>
+		<delete dir="${obj.dir}"></delete>
+	</target>
+	
+	<target name="build" depends="init" description="Build and package jcampfire">
+		<mkdir dir="${dist.dir}"/>
+		<mkdir dir="${obj.dir}"/>
+		
+		<javac srcdir="src"
+         	destdir="${obj.dir}"
+         	debug="on"	/>
+		
+		<javadoc destdir="${obj.dir}/${doc.dir}" 
+			access="public"
+			windowtitle="JCampfire API"
+			classpath="${obj.dir}">
+			<fileset dir="src">
+			    <include name="ca/softwareengineering/jcampfire/*.java"/>
+			</fileset>
+		</javadoc>
+		
+		<jar destfile="${dist.dir}/${jar.name}">
+			<fileset dir="${obj.dir}">
+			    <include name="**/**"/>
+			</fileset>
+		</jar>
+		
+	</target>
+</project>

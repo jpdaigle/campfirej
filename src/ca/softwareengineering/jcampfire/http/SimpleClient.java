@@ -3,14 +3,12 @@ package ca.softwareengineering.jcampfire.http;
 import static ca.softwareengineering.jcampfire.impl.Constants.USER_AGENT;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +18,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import ca.softwareengineering.jcampfire.CampfireException;
 
 public class SimpleClient {
 
@@ -34,11 +34,10 @@ public class SimpleClient {
 		for (Entry<String, List<String>> e : fields.entrySet()) {
 			String key = e.getKey();
 			List<String> val = e.getValue();
-			// log.log(Level.INFO, "   HDR>" + key + ":" + val);
 
 			if ("Set-Cookie".equals(key)) {
-				log.log(Level.INFO, "Got cookie " + val);
-				// Ignore metadata
+				log.log(Level.FINEST, "Got cookie " + val);
+				// Ignore metadata, just take first chunk
 				String c1 = val.get(0).split(";")[0];
 				_cookies.add(c1);
 			}
@@ -57,8 +56,8 @@ public class SimpleClient {
 		return sb.toString();
 	}
 
-	public String doRequest(Request r) throws IOException {
-		log.log(Level.INFO, "doRequest: " + r.toString());
+	public String doRequest(Request r) throws IOException, CampfireException {
+		log.log(Level.FINE, "doRequest: " + r.toString());
 		URL url = new URL(r.address);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setInstanceFollowRedirects(false);
@@ -68,11 +67,11 @@ public class SimpleClient {
 			conn.setRequestProperty("Cookie", cookies);
 		}
 		conn.setDoInput(true);
-		if (r.getRtype() == RTYPE.POST) {
+		if (r.rtype == RTYPE.POST) {
 			conn.setDoOutput(true);
 			conn.addRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 			DataOutputStream os = new DataOutputStream(conn.getOutputStream());
-			os.write(getPostBody(r.formFields).getBytes("UTF-8"));
+			os.write(getFormPostBody(r.formFields).getBytes("UTF-8"));
 		}
 		BufferedReader bufReader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 		StringBuilder sb = new StringBuilder();
@@ -101,6 +100,9 @@ public class SimpleClient {
 			}
 		}
 
+		if (resp_code != HttpURLConnection.HTTP_OK) {
+			throw new CampfireException(String.format("Response code '%s' not 200 OK", resp_code));
+		}
 		return sb.toString();
 	}
 
@@ -108,7 +110,12 @@ public class SimpleClient {
 		GET, POST
 	}
 
-	static String getPostBody(Map<String, String> data) {
+	/*
+	 * data is a map for formkey:formvalue
+	 * 
+	 * We URLEncode keys and values and separate them with '&'.
+	 */
+	static String getFormPostBody(Map<String, String> data) {
 		StringBuilder sb = new StringBuilder();
 		for (Entry<String, String> e : data.entrySet()) {
 			try {
@@ -130,22 +137,6 @@ public class SimpleClient {
 		public boolean followingRedir = false;
 
 		public Request() {
-		}
-
-		public String getAddress() {
-			return address;
-		}
-
-		public void setAddress(String address) {
-			this.address = address;
-		}
-
-		public RTYPE getRtype() {
-			return rtype;
-		}
-
-		public void setRtype(RTYPE rtype) {
-			this.rtype = rtype;
 		}
 
 		@Override
