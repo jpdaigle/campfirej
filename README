@@ -11,14 +11,16 @@ The latest source can be downloaded from:
 http://github.com/jpdaigle/jcampfire/
 
 
+
 BUILD AND INSTALL JCAMPFIRE
 ===========================
 Building:
 $ ant clean build
 
 Outputs:
-_dist/jcampfire.jar		(The API)
-_dist/doc				(Javadocs)
+_dist/jcampfire.jar		(The library only)
+_dist/jcampfire.tar.gz	(API jar + Javadocs package)
+
 
 
 ANT TASK
@@ -53,6 +55,16 @@ room		Name of room to join
 message		Message to send to Campfire
 paste		Whether to mark as paste (optional, default=false)
 failonerror	Whether to fail the build on error (optional, default=true)
+
+
+
+EXECUTABLE JAR
+==============
+In addition to the programmatic interface, jcampfire.jar can be used as an executable 
+to post a Campfire message.
+
+$ java -jar jcampfire.jar 
+
 
 
 USING THE API (SAMPLE CODE)
