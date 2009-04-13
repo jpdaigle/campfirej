@@ -1,6 +1,6 @@
-package ca.softwareengineering.jcampfire.http;
+package ca.softwareengineering.campfirej.http;
 
-import static ca.softwareengineering.jcampfire.impl.Constants.USER_AGENT;
+import static ca.softwareengineering.campfirej.impl.Constants.USER_AGENT;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -19,7 +19,7 @@ import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import ca.softwareengineering.jcampfire.CampfireException;
+import ca.softwareengineering.campfirej.CampfireException;
 
 public class SimpleClient {
 

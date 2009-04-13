@@ -1,8 +1,8 @@
-package ca.softwareengineering.jcampfire.exec;
+package ca.softwareengineering.campfirej.exec;
 
-import ca.softwareengineering.jcampfire.CampfireException;
-import ca.softwareengineering.jcampfire.CampfireRoom;
-import ca.softwareengineering.jcampfire.CampfireSession;
+import ca.softwareengineering.campfirej.CampfireException;
+import ca.softwareengineering.campfirej.CampfireRoom;
+import ca.softwareengineering.campfirej.CampfireSession;
 
 public class EchoRuntimeTask {
 	private String subdomain = "", user = "", password = "", room = "", message = "";

@@ -1,17 +1,17 @@
-package ca.softwareengineering.jcampfire.exec;
+package ca.softwareengineering.campfirej.exec;
 
-import ca.softwareengineering.jcampfire.CampfireException;
+import ca.softwareengineering.campfirej.CampfireException;
 
-public class JCampfireCmd {
+public class CampfireJCmd {
 
 	private EchoRuntimeTask task;
 
-	public JCampfireCmd() {
+	public CampfireJCmd() {
 		task = new EchoRuntimeTask();
 	}
 
 	public static void main(String[] args) {
-		JCampfireCmd cmd = new JCampfireCmd();
+		CampfireJCmd cmd = new CampfireJCmd();
 
 		try {
 			cmd.parseArgs(args);
@@ -52,7 +52,7 @@ public class JCampfireCmd {
 	}
 
 	public void execute() throws CampfireException {
-		System.out.printf("JCampfireEcho: subdomain '%s', user '%s', room '%s' \n", 
+		System.out.printf("CampfireJEcho: subdomain '%s', user '%s', room '%s' \n", 
 				task.getSubdomain(), 
 				task.getUser(), 
 				task.getRoom());

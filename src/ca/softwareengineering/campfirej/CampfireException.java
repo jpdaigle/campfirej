@@ -1,4 +1,4 @@
-package ca.softwareengineering.jcampfire;
+package ca.softwareengineering.campfirej;
 
 public class CampfireException extends Exception {
 	private static final long serialVersionUID = 1L;

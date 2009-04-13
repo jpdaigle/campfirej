@@ -1,6 +1,6 @@
-package ca.softwareengineering.jcampfire;
+package ca.softwareengineering.campfirej;
 
-import static ca.softwareengineering.jcampfire.impl.Constants.CF_DOMAIN;
+import static ca.softwareengineering.campfirej.impl.Constants.CF_DOMAIN;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -10,12 +10,12 @@ import java.util.List;
 import javax.swing.text.html.HTMLEditorKit.ParserCallback;
 import javax.swing.text.html.parser.ParserDelegator;
 
-import ca.softwareengineering.jcampfire.http.HtmlParserCallback;
-import ca.softwareengineering.jcampfire.http.SimpleClient;
-import ca.softwareengineering.jcampfire.http.HtmlParserCallback.HtmlAnchor;
-import ca.softwareengineering.jcampfire.http.SimpleClient.RTYPE;
-import ca.softwareengineering.jcampfire.http.SimpleClient.Request;
-import ca.softwareengineering.jcampfire.impl.Constants;
+import ca.softwareengineering.campfirej.http.HtmlParserCallback;
+import ca.softwareengineering.campfirej.http.SimpleClient;
+import ca.softwareengineering.campfirej.http.HtmlParserCallback.HtmlAnchor;
+import ca.softwareengineering.campfirej.http.SimpleClient.RTYPE;
+import ca.softwareengineering.campfirej.http.SimpleClient.Request;
+import ca.softwareengineering.campfirej.impl.Constants;
 
 /**
  * A session to the Campfire server and the main API entry point.

@@ -1,20 +1,20 @@
-package ca.softwareengineering.jcampfire.ant;
+package ca.softwareengineering.campfirej.ant;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
-import ca.softwareengineering.jcampfire.exec.EchoRuntimeTask;
+import ca.softwareengineering.campfirej.exec.EchoRuntimeTask;
 
 /**
  * This is an ant task for sending a message to a Campfire room.
  */
-public class JCampfireEcho extends Task {
+public class CampfireJEcho extends Task {
 
 	private boolean failonerror = true;
 
 	private EchoRuntimeTask task;
 
-	public JCampfireEcho() {
+	public CampfireJEcho() {
 		task = new EchoRuntimeTask();
 	}
 
@@ -55,7 +55,7 @@ public class JCampfireEcho extends Task {
 		}
 
 		try {
-			System.out.printf("JCampfireEcho: subdomain '%s', user '%s', room '%s' \n", 
+			System.out.printf("CampfireJEcho: subdomain '%s', user '%s', room '%s' \n", 
 					task.getSubdomain(), 
 					task.getUser(), 
 					task.getRoom());
@@ -66,7 +66,7 @@ public class JCampfireEcho extends Task {
 				throw new BuildException(t);
 			else {
 				// Configured to swallow errors
-				System.out.println("JCampfire error: " + t.getMessage());
+				System.out.println("CampfireJ error: " + t.getMessage());
 			}
 		}
 	}

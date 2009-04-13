@@ -1,10 +1,10 @@
-package ca.softwareengineering.jcampfire.test;
+package ca.softwareengineering.campfirej.test;
 
 import java.util.List;
 
-import ca.softwareengineering.jcampfire.CampfireException;
-import ca.softwareengineering.jcampfire.CampfireRoom;
-import ca.softwareengineering.jcampfire.CampfireSession;
+import ca.softwareengineering.campfirej.CampfireException;
+import ca.softwareengineering.campfirej.CampfireRoom;
+import ca.softwareengineering.campfirej.CampfireSession;
 
 public class CTest {
 	/*

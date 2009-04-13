@@ -1,11 +1,11 @@
-package ca.softwareengineering.jcampfire;
+package ca.softwareengineering.campfirej;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import ca.softwareengineering.jcampfire.http.SimpleClient.RTYPE;
-import ca.softwareengineering.jcampfire.http.SimpleClient.Request;
+import ca.softwareengineering.campfirej.http.SimpleClient.RTYPE;
+import ca.softwareengineering.campfirej.http.SimpleClient.Request;
 
 /**
  * A handle to a Campfire room.

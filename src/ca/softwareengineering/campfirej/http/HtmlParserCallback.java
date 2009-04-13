@@ -1,4 +1,4 @@
-package ca.softwareengineering.jcampfire.http;
+package ca.softwareengineering.campfirej.http;
 
 import java.util.ArrayList;
 import java.util.List;

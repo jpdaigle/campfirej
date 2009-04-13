@@ -1,11 +1,11 @@
-<project name="jcampfire">
+<project name="campfirej">
 
     <target name="init">
     	<property name="dist.dir" value="_dist"/>
 		<property name="package.dir" value="_pkg"/>
     	<property name="obj.dir" value="_obj"/>
     	<property name="doc.dir" value="doc"/>
-    	<property name="jar.name" value="jcampfire.jar"/>
+    	<property name="jar.name" value="campfirej.jar"/>
     </target>
 
 	<target name="clean" depends="init" description="Clean build artifacts">
@@ -14,35 +14,35 @@
 		<delete dir="${package.dir}"></delete>
 	</target>
 	
-	<target name="build" depends="init" description="Build and package jcampfire">
+	<target name="build" depends="init" description="Build and package campfirej">
 		<mkdir dir="${dist.dir}"/>
 		<mkdir dir="${obj.dir}"/>
-		<mkdir dir="${package.dir}/jcampfire"/>
+		<mkdir dir="${package.dir}/campfirej"/>
 		
 		<javac srcdir="src"
          	destdir="${obj.dir}"
          	debug="on"	/>
 		
-		<javadoc destdir="${package.dir}/jcampfire/${doc.dir}" 
+		<javadoc destdir="${package.dir}/campfirej/${doc.dir}" 
 			access="public"
-			windowtitle="JCampfire API Documentation"
+			windowtitle="CampfireJ API Documentation"
 			classpath="${obj.dir}">
 			<fileset dir="src">
-			    <include name="ca/softwareengineering/jcampfire/*.java"/>
+			    <include name="ca/softwareengineering/campfirej/*.java"/>
 			</fileset>
 		</javadoc>
 
-		<jar destfile="${package.dir}/jcampfire/${jar.name}">
+		<jar destfile="${package.dir}/campfirej/${jar.name}">
 			<fileset dir="${obj.dir}">
 			    <include name="**/**"/>
 				<exclude name="manifest"/>
 			</fileset>
 			<manifest>
-				<attribute name="Main-Class" value="ca.softwareengineering.jcampfire.exec.JCampfireCmd"/>
+				<attribute name="Main-Class" value="ca.softwareengineering.campfirej.exec.CampfireJCmd"/>
 			</manifest>
 		</jar>
 		
-		<tar compression="gzip" basedir="${package.dir}" destfile="${dist.dir}/jcampfire.tar.gz" />
-		<move file="${package.dir}/jcampfire/jcampfire.jar" todir="${dist.dir}" />
+		<tar compression="gzip" basedir="${package.dir}" destfile="${dist.dir}/campfirej.tar.gz" />
+		<move file="${package.dir}/campfirej/campfirej.jar" todir="${dist.dir}" />
 	</target>
 </project>

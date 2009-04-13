@@ -1,4 +1,4 @@
-jcampfire: Basic Campfire API in Java, for 37signals' Campfire business group chat.
+CampfireJ: Basic Campfire API in Java, for 37signals' Campfire business group chat.
 (http://www.campfirenow.com)
 
 It's not as full-featured as Tinder, but it's a good step towards getting 
@@ -8,38 +8,38 @@ This library was originally written by Jean-Philippe Daigle [jpdaigle@gmail.com]
 and is released under the WTFPL [http://en.wikipedia.org/wiki/WTFPL].
 
 The latest source can be downloaded from:
-http://github.com/jpdaigle/jcampfire/
+http://github.com/jpdaigle/campfirej/
 
 
 
-BUILD AND INSTALL JCAMPFIRE
+BUILD AND INSTALL CAMPFIREJ
 ===========================
 Building:
 $ ant clean build
 
 Outputs:
-_dist/jcampfire.jar		(The library only)
-_dist/jcampfire.tar.gz	(API jar + Javadocs package)
+_dist/campfirej.jar		(The library only)
+_dist/campfirej.tar.gz	(API jar + Javadocs package)
 
 
 
 ANT TASK
 ========
-JCampfire includes an Ant task for echoing text from an Ant build to a Campfire room.
+CampfireJ includes an Ant task for echoing text from an Ant build to a Campfire room.
 (In fact, this was the impetus for writing the library.)
 
-To use it, put jcampfire.jar somewhere where Ant can reach and do this:
+To use it, put campfirej.jar somewhere where Ant can reach and do this:
 
-	<project name="jcampfire-ant-test">
+	<project name="campfirej-ant-test">
 		<taskdef 
-			name="jcampfire" 
-			classname="ca.softwareengineering.jcampfire.ant.JCampfireEcho" 
-			classpath="_dist/jcampfire.jar"/>
+			name="campfirej" 
+			classname="ca.softwareengineering.campfirej.ant.CampfireJEcho" 
+			classpath="_dist/campfirej.jar"/>
 		<target name="test">
-			<jcampfire 
+			<campfirej 
 				user="ant@example.com" 
 				password="mypassword" 
-				subdomain="jcampfire" 
+				subdomain="campfirej" 
 				room="Room 1" 
 				failonerror="false"
 				paste="false"
@@ -60,10 +60,10 @@ failonerror	Whether to fail the build on error (optional, default=true)
 
 EXECUTABLE JAR
 ==============
-In addition to the programmatic interface and Ant task, jcampfire.jar can be used as an executable 
+In addition to the programmatic interface and Ant task, campfirej.jar can be used as an executable 
 to post a Campfire message:
 
-$ java -jar jcampfire.jar -u user -s subdomain -p password -r "Room 1" -m "Hello world" --paste
+$ java -jar campfirej.jar -u user -s subdomain -p password -r "Room 1" -m "Hello world" --paste
 
 
 
